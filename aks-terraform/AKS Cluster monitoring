@@ -1,0 +1,37 @@
+AKS Cluster Monitoring and Management README
+Task 1: Enable Container Insights
+
+Container Insights has been enabled for our AKS cluster, jordaks, ensuring in-depth performance monitoring and diagnostics. The transition to a managed identity for the cluster enhances security and simplifies access management to Azure resources. Permissions for the Service Principal have been configured to allow monitoring data collection.
+Task 2: Metrics Explorer Charts
+
+We've created and configured several charts in Metrics Explorer to monitor key performance indicators:
+
+    Average Node CPU Usage: Tracks CPU consumption across nodes, aiding in resource allocation and identifying performance bottlenecks.
+    Average Pod Count: Shows the mean number of pods, offering insights into workload distribution and cluster capacity utilization.
+    Used Disk Percentage: Helps in tracking disk space utilization to prevent storage constraints.
+    Bytes Read and Written per Second: Provides a view into the data transfer rates, crucial for identifying I/O related performance issues.
+
+These charts are accessible on our Azure dashboard, ensuring real-time monitoring of our AKS cluster.
+Task 3: Log Analytics Configurations
+
+We have set up Log Analytics to capture and store logs for:
+
+    Node CPU and Memory Usage: Logged per minute, these metrics are vital for understanding resource utilization and planning.
+    Pods Counts with Phase: Offers visibility into pod lifecycle and distribution, ensuring balanced workloads.
+    Warning Values in Container Logs: Early detection of container issues for swift resolution.
+    Kubernetes Events Monitoring: Tracks events for a comprehensive view of cluster activities and health.
+
+Task 4: Alert Rule for Disk Usage
+
+An alert rule has been established to trigger when disk usage exceeds 90%, safeguarding against potential storage issues. This alert is checked every 5 minutes, with notifications configured to ensure timely responses to critical conditions.
+Task 5: CPU and Memory Utilization Alerts
+
+Alerts for CPU usage and memory working set percentage are set to trigger at 80% utilization. This proactive measure ensures we are notified before these resources reach critical levels, allowing for timely adjustments.
+Task 6: Monitoring Strategy Documentation
+
+Our monitoring strategy for the AKS cluster encompasses detailed Metrics Explorer charts and Log Analytics configurations. This README outlines:
+
+    Metrics Explorer Charts: Explains the purpose and interpretation of each chart. Screenshots provided for clarity.
+    Log Analytics: Details on the logs captured, their significance, and sample entries to highlight their relevance.
+    Alert Configurations: Descriptions of alert thresholds, conditions, and the notification process.
+    Response Strategies: Outlines steps to take when alerts are triggered, including resource scaling, capacity allocation, and troubleshooting procedures.

@@ -1,0 +1,49 @@
+Introduction 
+The web app uses Terraform for provisioning networking services in Azure for an AKS cluster. 
+
+Requirements
+Terraform v1.7.3
+
+Modules
+Networking Modules
+Encapsulates all the networking resources required for the AKS cluster. 
+
+Resources within the Module; 
+    Azure resource group - (azurerm_resource_group): Groups all of the networking resources for easy management using the resource_group_name variable
+
+    Virtual network (azurerm_virtual_network): Provides private network for the AKS cluster usingt he vnet_address_space variable
+
+    Subnets (azurerm_subnet): one subnet for control plane (control-plane-subnet) and one for worker nodes (worker-node-subnet) Isolating and managing network traffic within the AKS cluster.
+
+    Network Security Group (azurerm_network_security_group) and Rules (azurerm_network_security_rule) this secures network access to the AKS cluster. 
+
+
+
+Input Variables
+
+These variables include:
+
+    resource_group_name: This variable specifies the name of the Azure Resource Group that will contain all the networking resources. 
+
+    location: Defines the Azure region where all networking resources will be deployed. 
+
+    vnet_address_space: A list of IP address ranges designated for the Virtual Network (VNet). 
+
+Output Variables
+
+The module defines output variables to pass important information about the networking resources to other parts of your Terraform configuration
+
+    vnet_id: The unique identifier for the Virtual Network created by the module. 
+
+    control_plane_subnet_id: Holds the ID for the subnet designated for AKS cluster control plane components. 
+
+    worker_node_subnet_id: The identifier for the subnet where AKS worker nodes (VMs) will be deployed. 
+
+    networking_resource_group_name: Outputs the name of the Azure Resource Group used, ensuring that subsequent resources, like the AKS cluster, can be deployed within the same group for centralised management.
+
+    aks_nsg_id: Provides the ID for the Network Security Group associated with the AKS cluster. 
+
+
+How to deploy
+open terminal; terraform init
+

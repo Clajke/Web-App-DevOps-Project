@@ -1,0 +1,52 @@
+AKS Terraform Deployment Guide
+
+This guide provides step-by-step instructions on how to deploy an Azure Kubernetes Service (AKS) cluster using Terraform. The project structure, necessary files, and commands are outlined below to facilitate a smooth deployment process.
+Prerequisites
+
+    Azure CLI installed and configured
+    Terraform v0.12 or higher installed
+    An Azure Subscription
+    An Azure Service Principal
+
+Project Structure
+
+    main.tf: Contains the main Terraform configuration for deploying Azure resources.
+    variables.tf: Defines variables used within main.tf.
+    terraform.tfvars: (Optional) File for defining variable values.
+    modules/: Directory containing reusable Terraform modules for networking and AKS cluster.
+        networking-module/
+        aks-cluster-module/
+
+Configuration Steps
+Step 1: Initialize Project
+
+    Create main.tf: Initialize your project with a main.tf file in the root directory (aks-terraform). This file will include the Azure provider configuration and module integrations.
+
+    Define Azure Provider: Within main.tf, specify your Azure provider and authentication details leveraging Azure service principal credentials.
+
+    Create variables.tf: Define necessary variables such as client_id, client_secret, subscription_id, and tenant_id.
+
+    Environment Variables: For security, set up environment variables for your Azure service principal credentials to avoid hardcoding them in your files.
+
+Step 2: Networking Module Integration
+
+In main.tf, integrate the networking module by specifying its source path and providing input variables like resource_group_name, location, and vnet_address_space.
+Step 3: AKS Cluster Module Integration
+
+Similarly, integrate the AKS cluster module in main.tf, supplying variables such as cluster_name, location, dns_prefix, kubernetes_version, and service principal credentials. Use outputs from the networking module as inputs here.
+Step 4: Terraform Initialization and Deployment
+
+    Initialize Terraform: Run terraform init to prepare your project for deployment.
+
+    Deploy with Terraform: Execute terraform apply to create your infrastructure. Confirm the action by typing yes when prompted.
+
+Step 5: Retrieve Kubeconfig
+
+After successful deployment, use Azure CLI to retrieve the kubeconfig file for your AKS cluster:
+
+az aks get-credentials --resource-group <ResourceGroupName> --name <ClusterName>
+
+Maintaining Security
+
+    Ensure your kubeconfig file is securely stored; it grants access to your AKS cluster.
+    Do not commit sensitive files (terraform.tfstate, .terraform/, terraform.tfvars) to version control. Use .gitignore to exclude them.

@@ -1,0 +1,178 @@
+Web App Dev Ops Project
+
+
+# Web-App-DevOps-Project
+
+Welcome to the Web App DevOps Project repo! This application allows you to efficiently manage and track orders for a potential business. It provides an intuitive user interface for viewing existing orders and adding new ones.
+
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+- [Technology Stack](#technology-stack)
+- [Contributors](#contributors)
+- [License](#license)
+
+## Features
+
+- **Order List:** View a comprehensive list of orders including details like date UUID, user ID, card number, store code, product code, product quantity, order date, and shipping date.
+  
+![Screenshot 2023-08-31 at 15 48 48](https://github.com/maya-a-iuga/Web-App-DevOps-Project/assets/104773240/3a3bae88-9224-4755-bf62-567beb7bf692)
+
+- **Pagination:** Easily navigate through multiple pages of orders using the built-in pagination feature.
+  
+![Screenshot 2023-08-31 at 15 49 08](https://github.com/maya-a-iuga/Web-App-DevOps-Project/assets/104773240/d92a045d-b568-4695-b2b9-986874b4ed5a)
+
+- **Add New Order:** Fill out a user-friendly form to add new orders to the system with necessary information.
+  
+![Screenshot 2023-08-31 at 15 49 26](https://github.com/maya-a-iuga/Web-App-DevOps-Project/assets/104773240/83236d79-6212-4fc3-afa3-3cee88354b1a)
+
+- **Data Validation:** Ensure data accuracy and completeness with required fields, date restrictions, and card number validation.
+
+## Getting Started
+
+### Prerequisites
+
+For the application to succesfully run, you need to install the following packages:
+
+- flask (version 2.2.2)
+- pyodbc (version 4.0.39)
+- SQLAlchemy (version 2.0.21)
+- werkzeug (version 2.2.3)
+
+### Usage
+
+To run the application, you simply need to run the `app.py` script in this repository. Once the application starts you should be able to access it locally at `http://127.0.0.1:5000`. Here you will be meet with the following two pages:
+
+1. **Order List Page:** Navigate to the "Order List" page to view all existing orders. Use the pagination controls to navigate between pages.
+
+2. **Add New Order Page:** Click on the "Add New Order" tab to access the order form. Complete all required fields and ensure that your entries meet the specified criteria.
+
+## Technology Stack
+
+- **Backend:** Flask is used to build the backend of the application, handling routing, data processing, and interactions with the database.
+
+- **Frontend:** The user interface is designed using HTML, CSS, and JavaScript to ensure a smooth and intuitive user experience.
+
+- **Database:** The application employs an Azure SQL Database as its database system to store order-related data.
+
+## Contributors 
+
+- [Maya Iuga]([https://github.com/yourusername](https://github.com/maya-a-iuga))
+
+## License
+
+This project is licensed under the MIT License. For more details, refer to the [LICENSE](LICENSE) file.
+
+
+
+## Task 1: Building environment 
+Set up GitHub - forking this repo https://github.com/maya-a-iuga/Web-App-DevOps-Project
+
+Install the dependencies by consulting the requirement.txt file in above repo
+
+Ensure you have access to Azure.
+
+## Task 2 Version control
+
+Forked Repo has been cloned enabling work on Local Machine. 
+
+A further column was added on the forked repo to view "delivery_date" 
+
+Feature branch was created to avoid conflict. 
+
+Changes pushed to remote branch. 
+
+Changes were pulled from the feature branch to the main branch and reverted following instructions. 
+
+## Task 3 Containerisation with Docker
+
+Dockerfile created named clajke/devopsazurepipeline:1.0. Requirements.txt updated to have relevant packages required to run the webapp. 
+
+Image Verified on Dockerhub to ensure correct storage and accessibility. 
+
+## Task 4 definiing Networking Services with IaC
+
+Terraform project was initiated named aks-terraform. Subfolders were made within the AKS terraform directory to relate to Networking and cluster provisioning. 
+
+Variables were created within both folders, please see variables.tf in either directory. 
+
+Definitions made to main.tf defining the essential resources for AKS cluster such as Virtual Network, Control Plan Subnet, Network Securty Group - (please see main.tf for further examples) 
+
+Rules created in Main.tf to allow traffic to the kube-apiserver and to allow inbound SSH traffic. 
+
+Networking Module Initiated to ensure able to use with project. 
+
+## Task 5 - Defining an AKS Cluster with IaC
+
+Similarly to previous task a variables.tf config file was created within the aks-cluster-module folder, variables were defined for this module. Definitions provided for aks_cluster_name, cluster_location, dns_prefix, kubernetes_version, service_principal_client_id, service_prinipal_secret.
+
+Names were provided for aks_cluster_name - jordaks as well as other variables. 
+
+cluster module was initiated. 
+
+## task 6 - creating an AKS cluster with IAC 
+
+main.tf created in main project directory. Azure provider definted to enable input for client_id and client_secret arguments in variables.tf
+
+Network mudle integrated. Inputs provided for networking-resource-group and location given to UK South to improve latency. 
+
+Terraform initiated in the main directory. State files added to .gitignore to ensure secrets are not exposed and also, wrong files are not pushed.  
+
+Kubeconfig file retrieved enabling secure connection to the AKS cluster. 
+
+## task 7 Kubernetes Deployment to AKS
+
+Kubernetes manifest file created & deployment named flask-app-deployment was made. File name is application-manifest.yaml. After variables definted the application was tested by exposing port 5000. 
+
+Kubernetes service manifest added to the application-manifest.yaml. A flask app service was created to route internal communication. This matches the previously deployed pods in reference to (app: flask-app) 
+
+TCP protocol on port 80 for internal communication with the targetport for 5000 with service type set to ClusterIP. 
+
+Kubernetes manifest was deployed to the AKS cluster. 
+
+To test this had been completed correctly pods were checked using command. Port forwarding completed with name of pod to test. Local address used to test webpage.
+
+## task 8 - CI/CD Pipeline with Azure DevOps
+
+Project created in Azure DevOps which will serve as foundation of the CI/CD pipeline setup. Ensure that you have access to Azure Devops. 
+
+Ensure that GitHub (logged in) is the source repo for the pipeline. Create a starter pipeline. 
+
+Service was set up between dockerhub and Azure where application image is stored. 
+
+Dockertask added with the buldandpush command. Pipeline automatically run each time there is a push to main branch. 
+
+AKS service connection with Azure DevOps created. 
+
+Pipeline configured to incorpporate the Deploy to Kubernetes task within the deploy kubectl command. 
+
+Tests completed to ensure Ci/CD pipeline working. Port forwarding initited with command kubectl.
+
+## task 9 - AKS Cluster Monitoring 
+
+Container insights were enabled to show different metrics of how the container is performing. 
+
+Metrics explorer charts were created as can be seen on the Azure Dashboard, this included Avg Node CPU usage, Average Pod Count, Used Disk Percentage and Bytes read & written per second. 
+
+Log Analytics setup to enables logs to be created of key data. 
+
+Alarm setup to alert for disk used percentages. 
+
+## task 10 - AKS Integration with Azure Key Valut for Secrets Management
+
+Azure Key Vault created
+
+Key Vault administrator role granted to User ID. 
+
+Secrets created in Key Valut to secure data, server name, server username, password and database name were saved. 
+
+Managed Identity for AKS was created allowing retrival of secrets. 
+
+Application code updated to integrate the key vault libraries and also to contain managed identities. This was also completed in dockerfile. 
+
+
+
+
+
+

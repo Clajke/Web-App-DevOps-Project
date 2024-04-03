@@ -1,0 +1,42 @@
+CI/CD Pipeline Setup
+Overview
+
+This project utilizes Azure DevOps for continuous integration and continuous deployment (CI/CD) to automate the building, testing, and deployment of a Flask application to Azure Kubernetes Service (AKS). The pipeline integrates with Docker Hub for container image storage and management.
+Pipeline Configuration
+Source Repository
+
+    Platform: GitHub
+    Repository URL: https://github.com/Clajke/FinalProject4
+
+Build Pipeline
+
+    Trigger: Automatically triggers on commits to the main branch.
+    Tasks:
+        Docker Build and Push: Builds a Docker image from the Dockerfile located at the root of the repository and pushes it to Docker Hub.
+            Image Name: clajke/devopsazurepipeline:1.0
+            Docker Hub Connection: Uses a service connection named DockerHubConnection for authentication.
+
+Release Pipeline
+
+    Trigger: Automatically triggers after a successful build.
+    Tasks:
+        Deploy to AKS: Uses kubectl to apply the Kubernetes manifest (k8s-manifest.yaml) to deploy the application to AKS.
+            AKS Service Connection: AKS-Service-Connection
+            Kubernetes Manifest: Located at $(Build.SourcesDirectory)/k8s-manifest.yaml
+
+Integration Points
+
+    Docker Hub: Hosts the Docker image built by the pipeline.
+    Azure Kubernetes Service (AKS): The deployment target for the application.
+
+Validation Steps
+
+    Monitor Pod Status: Ensured pods were correctly created and running in AKS using kubectl get pods.
+    Port Forwarding and Testing:
+        Performed port forwarding with kubectl port-forward to access the application locally.
+        Accessed the application at http://localhost:8080 to validate its functionality.
+
+Issues Encountered
+
+    Port Conflict: Initially attempted to use port 8080 for local testing, which was already in use. Resolved by selecting an alternate port.
+    Image Pull Errors: Encountered issues with Kubernetes pods failing to pull the Docker image due to incorrect image tagging. Fixed by ensuring the correct image tag in the Kubernetes manifest.

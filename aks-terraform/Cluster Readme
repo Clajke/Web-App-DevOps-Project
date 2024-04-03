@@ -1,0 +1,45 @@
+# AKS Cluster Provisioning with Terraform
+
+This project demonstrates how to provision an Azure Kubernetes Service (AKS) cluster using Terraform as the Infrastructure as Code (IaC) tool.
+
+## Prerequisites
+
+- Azure Subscription
+- Terraform installed
+- Azure CLI installed
+
+## Overview
+
+The Terraform configuration encapsulated within this project automates the deployment of a highly available AKS cluster in Azure. It leverages a modular approach, separating networking resources from the AKS cluster configuration for better manageability and reusability.
+
+## Structure
+
+- `modules/`: Contains the Terraform modules.
+  - `aks-cluster-module/`: Defines the AKS cluster and its dependencies.
+- `main.tf`: The entry point for Terraform configurations.
+- `variables.tf`: Defines input variables for the Terraform configurations.
+- `outputs.tf`: Defines output variables that provide important information about the provisioned infrastructure.
+
+## Input Variables
+
+- `aks_cluster_name`: Specifies the name of the AKS cluster.
+- `cluster_location`: Defines the Azure region where the AKS cluster is deployed.
+- `dns_prefix`: Sets the DNS prefix for the AKS cluster.
+- `kubernetes_version`: Determines the version of Kubernetes to use.
+- `service_principal_client_id` and `service_principal_secret`: Credentials for the service principal used by the AKS cluster for Azure API interactions.
+- Networking module outputs used as inputs:
+  - `resource_group_name`: The name of the resource group containing networking resources.
+  - `vnet_id`, `control_plane_subnet_id`, `worker_node_subnet_id`: Identifiers for the VNet and subnets.
+
+## Output Variables
+
+- `aks_cluster_name`: The name of the provisioned AKS cluster.
+- `aks_cluster_id`: The unique identifier of the AKS cluster.
+- `aks_kubeconfig`: The kubeconfig file contents needed to interact with the AKS cluster via `kubectl`.
+
+## Provisioning Steps
+
+1. **Initialize Terraform**:
+   Navigate to the project root and run `terraform init`.
+
+

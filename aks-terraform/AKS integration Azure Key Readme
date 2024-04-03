@@ -1,0 +1,49 @@
+
+
+Introduction
+
+This element of project showcases the integration of Azure Kubernetes Service (AKS) with Azure Key Vault for managing secrets securely. By leveraging managed identities, our application securely accesses database credentials stored in Azure Key Vault, ensuring enhanced security and simplified credentials management.
+Azure Key Vault Setup and Permissions
+Key Vault Setup
+
+Our Azure Key Vault instance, named JordAksKeyVault, is centrally used for storing secrets related to the application, including database connection strings, usernames, and passwords.
+Permissions
+
+We've assigned the "Key Vault Secrets Officer" role to our AKS cluster's managed identity. This role ensures that the AKS cluster can securely access the necessary secrets for application configuration without storing sensitive information in the source code or Docker images.
+Secrets Management
+Stored Secrets
+
+The following secrets are stored in JordAksKeyVault:
+
+    DatabaseServerName: The hostname of the database server our application connects to.
+    DatabaseUserName: The username for database access.
+    DatabasePassword: The password for the database user.
+    DatabaseName: The name of the specific database our application uses.
+
+Each secret is referenced in the application code through managed identity credentials, ensuring secure and dynamic access to the values at runtime.
+AKS Integration with Azure Key Vault
+Managed Identity Setup
+
+We enabled a system-assigned managed identity for our AKS cluster, jordaks. This identity is granted specific permissions to access the secrets within JordAksKeyVault.
+Permission Assignment
+
+Permissions were assigned to the managed identity by creating a role assignment with the "Key Vault Secrets Officer" role, ensuring it has read access to the secrets needed for application configuration.
+Application Code Modifications
+
+To incorporate managed identity credentials for secure secret retrieval, we updated our application code to use the Azure SDK for Python. Specifically, we utilized the ManagedIdentityCredential class from azure.identity and the SecretClient class from azure.keyvault.secrets to access Key Vault secrets.
+
+Here is a simplified code snippet illustrating this integration:
+
+from azure.identity import ManagedIdentityCredential
+from azure.keyvault.secrets import SecretClient
+
+key_vault_url = "https://JordAksKeyVault.vault.azure.net/"
+credential = ManagedIdentityCredential()
+secret_client = SecretClient(vault_url=key_vault_url, credential=credential)
+
+database_name = secret_client.get_secret("DatabaseName").value
+
+
+Conclusion
+
+This project demonstrates the effective use of Azure services to secure application secrets and streamline deployments. By integrating AKS with Azure Key Vault through managed identities, we enhance security and simplify the management of sensitive configuration details.
