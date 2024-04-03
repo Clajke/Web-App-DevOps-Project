@@ -1,0 +1,30 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+- task: Docker@2
+  displayName: 'Build and Push Docker image'
+  inputs:
+    command: buildAndPush
+    repository: clajke/devopsazurepipeline
+    dockerfile: $(Build.SourcesDirectory)/Dockerfile
+    containerRegistry: 'DockerHubConnection'  # Use your Docker Hub service connection name
+    tags: |
+      1.0
+      latest
+
+# Replace the AzureCLI@2 task with Kubernetes@1 for a more streamlined deployment
+- task: Kubernetes@1
+  displayName: 'Deploy to Kubernetes'
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'AKS-Service-Connection'  # Use your AKS service connection name
+    azureResourceGroup: 'resource_group_1'  # The Azure resource group containing your AKS cluster
+    kubernetesCluster: 'jordaks'  # The name of your AKS cluster
+    command: 'apply'
+    useConfigurationFile: true
+    configuration: '$(Build.SourcesDirectory)/k8s-manifest.yaml'  # Path to your Kubernetes manifest file
