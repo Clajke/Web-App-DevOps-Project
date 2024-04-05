@@ -13,10 +13,11 @@ steps:
     repository: clajke/devopsazurepipeline
     dockerfile: $(Build.SourcesDirectory)/Dockerfile
     containerRegistry: 'Docker Hub'  # Use your Docker Hub service connection name
-- task: Docker@2
+- task: KubernetesManifest@1
   inputs:
-    containerRegistry: 'Docker Hub'
-    repository: 'clajke/devopsazurepipeline'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: 'latest'
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'Jordan Clarke DevOps(4563fdd1-e2bd-4332-98dc-7facf2d27d5c)'
+    azureResourceGroup: 'resource_group_1'
+    kubernetesCluster: 'jordaks'
+    manifests: 'application-manifest.yaml'
